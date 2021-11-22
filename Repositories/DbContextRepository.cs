@@ -21,5 +21,24 @@ namespace CommentService.Repositories
             commentContext.SaveChanges();
             return addedComment.Entity;
         }
+
+        internal CommentPage GetComments(Guid id, int pageNumber, int pageSize)
+        {
+            int totalElements = commentContext.Comments
+                .Where(exercise => exercise.SolutionId.Equals(id))
+                .Count();
+            int totalPages = totalElements / pageSize;
+
+            return new CommentPage()
+            {
+                Items = commentContext.Comments
+                    .Where(exercise => exercise.SolutionId.Equals(id))
+                    .Skip((pageNumber - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList(),
+                TotalPages = totalElements % pageSize == 0 ? totalPages : totalPages + 1,
+                TotalElements = totalElements
+            };
+        }
     }
 }

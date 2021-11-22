@@ -26,13 +26,24 @@ namespace CommentService.Controllers
         }
 
         [HttpGet]
+        [Route("/comments/solutions/{id}")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(CommentQueryModel[]), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
-        public IActionResult GetComments([FromQuery] int pageSize, [FromQuery] int sectionNumber)
+        public IActionResult GetComments([FromRoute] Guid id, [FromQuery] int pageSize, [FromQuery] int pageNumber)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation("the retreival of a list of comments is requested");
+
+            try
+            {
+                return Ok(CommentMapper.MapToQueryPage(
+                    _repository.GetComments(id, pageNumber, pageSize)));
+            } catch (Exception e)
+            {
+                _logger.LogError("error occured when  retrieving a list of comments", e);
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
         }
 
         [HttpPost]

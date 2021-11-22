@@ -37,6 +37,16 @@ namespace CommentService
             services.AddLogging();
             services.AddScoped<DbContextRepository>();
 
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("http://localhost:8081")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
+            });
+
             services.AddDbContext<CommentContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("MySql"), new MySqlServerVersion(new Version(8, 0, 23))));
 
@@ -57,6 +67,8 @@ namespace CommentService
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {

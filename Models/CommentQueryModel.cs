@@ -10,6 +10,8 @@ namespace CommentService.Models
         public Guid Id { get; set; }
         public Guid SolutionId { get; set; }
         public Guid UserId { get; set; }
-        public string text { get; set; }
+        public User User { get; set; }
+        public string Content { get; set; }
+        public long CreationTime { get; set; }
     }
 }

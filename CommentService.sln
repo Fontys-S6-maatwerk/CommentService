@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommentService", "CommentService.csproj", "{1CDE038A-3C34-45A7-89C1-40C8F39FACDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommentService", "CommentService.csproj", "{1CDE038A-3C34-45A7-89C1-40C8F39FACDB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommentTests", "..\CommentTests\CommentTests.csproj", "{CA7DE9B9-C6BB-4985-97E4-D0B277AD260A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{1CDE038A-3C34-45A7-89C1-40C8F39FACDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CDE038A-3C34-45A7-89C1-40C8F39FACDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CDE038A-3C34-45A7-89C1-40C8F39FACDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA7DE9B9-C6BB-4985-97E4-D0B277AD260A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA7DE9B9-C6BB-4985-97E4-D0B277AD260A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA7DE9B9-C6BB-4985-97E4-D0B277AD260A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA7DE9B9-C6BB-4985-97E4-D0B277AD260A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

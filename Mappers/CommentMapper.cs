@@ -15,7 +15,8 @@ namespace CommentService.Mappers
                 Id = commentQueryModel.Id,
                 UserId = commentQueryModel.UserId,
                 SolutionId = commentQueryModel.SolutionId,
-                text = commentQueryModel.text
+                Text = commentQueryModel.Content,
+                CreationTime = commentQueryModel.CreationTime
             };
         }
 
@@ -26,7 +27,27 @@ namespace CommentService.Mappers
                 Id = commentDataModel.Id,
                 UserId = commentDataModel.UserId,
                 SolutionId = commentDataModel.SolutionId,
-                text = commentDataModel.text
+                Content = commentDataModel.Text,
+                CreationTime = commentDataModel.CreationTime,
+                //temp
+                User = new User()
+                {
+                    Id = commentDataModel.UserId,
+                    FirstName = "Bob",
+                    LastName = "Builderson",
+                    Email = "Bob.builderson@test.com",
+                    ProfileImage = "https://cdn.vuetifyjs.com/images/john.jpg"
+                }
+            };
+        }
+
+        internal static CommentPageResponse MapToQueryPage(CommentPage commentPage)
+        {
+            return new CommentPageResponse()
+            {
+                Items = MapToQueryModels(commentPage.Items),
+                TotalElements = commentPage.TotalElements,
+                TotalPages = commentPage.TotalPages
             };
         }
 

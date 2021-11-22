@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CommentService.Migrations
 {
     [DbContext(typeof(CommentContext))]
-    [Migration("20211018120715_InitialCreate")]
+    [Migration("20211116134303_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,14 +25,17 @@ namespace CommentService.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<long>("CreationTime")
+                        .HasColumnType("bigint");
+
                     b.Property<Guid>("SolutionId")
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("Text")
+                        .HasColumnType("longtext");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
-
-                    b.Property<string>("text")
-                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 

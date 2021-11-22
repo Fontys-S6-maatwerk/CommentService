@@ -23,14 +23,17 @@ namespace CommentService.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<long>("CreationTime")
+                        .HasColumnType("bigint");
+
                     b.Property<Guid>("SolutionId")
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("Text")
+                        .HasColumnType("longtext");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
-
-                    b.Property<string>("text")
-                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
