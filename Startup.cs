@@ -1,3 +1,4 @@
+using CommentService.RabbitMQ;
 using CommentService.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,6 +37,8 @@ namespace CommentService
 
             services.AddLogging();
             services.AddScoped<DbContextRepository>();
+
+            services.AddSingleton<EventBusReceive>();
 
             services.AddCors(options =>
             {
