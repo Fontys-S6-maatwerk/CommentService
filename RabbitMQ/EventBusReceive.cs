@@ -29,12 +29,16 @@ namespace CommentService.RabbitMQ
 
         public void ReceiveUser()
         {
+            var queueName = "auth_comment_queue";
             var factory = new ConnectionFactory() { HostName = "localhost" };
             connection = factory.CreateConnection();
             channel = connection.CreateModel();
 
-            channel.QueueDeclare(queue: "update_user_queue", durable: true, exclusive: false, autoDelete: false, arguments: null);
+            channel.ExchangeDeclare(exchange: "topic_logs", ExchangeType.Fanout);
+            channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
             channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
+
+            channel.QueueBind(queue: queueName, exchange: "topic_logs", routingKey: "auth");
 
             Console.WriteLine(" [*] Waiting for messages.");
 
@@ -67,10 +71,9 @@ namespace CommentService.RabbitMQ
                 Console.WriteLine(" [x] Done " + response.FirstName);
                 channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
             };
-            channel.BasicConsume(queue: "update_user_queue", autoAck: false, consumer: consumer);
+            channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
 
             Console.WriteLine(" Press [enter] to exit.");
-
         }
     }
 }

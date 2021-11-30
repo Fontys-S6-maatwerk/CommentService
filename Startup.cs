@@ -51,13 +51,19 @@ namespace CommentService
             });
 
             services.AddDbContext<CommentContext>(options =>
-                options.UseMySql(Configuration.GetConnectionString("MySql"), new MySqlServerVersion(new Version(8, 0, 23))));
+                options.UseMySql(Configuration.GetConnectionString("authentication-db"), new MySqlServerVersion(new Version(8, 0, 23))));
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, EventBusReceive cake)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, CommentContext dataContext, EventBusReceive cake)
         {
+            foreach (var migration in dataContext.Database.GetPendingMigrations())
+            {
+                Console.WriteLine("Running Migrations: " + migration);
+            }
+            dataContext.Database.Migrate();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
