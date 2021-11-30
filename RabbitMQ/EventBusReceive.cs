@@ -32,7 +32,7 @@ namespace CommentService.RabbitMQ
             connection = factory.CreateConnection();
             channel = connection.CreateModel();
 
-            channel.QueueDeclare(queue: "update_user_queue", durable: true, exclusive: false, autoDelete: false, arguments: null);
+            channel.QueueDeclare(queue: "auth_queue", durable: true, exclusive: false, autoDelete: false, arguments: null);
             channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
 
             Console.WriteLine(" [*] Waiting for messages.");
@@ -40,7 +40,7 @@ namespace CommentService.RabbitMQ
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += (sender, ea) =>
             {
-                User response = new User();
+                UserQM response = new UserQM();
 
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
@@ -52,7 +52,7 @@ namespace CommentService.RabbitMQ
                 try
                 {
                     Console.WriteLine(" [.] User({0})", message);
-                    response = JsonConvert.DeserializeObject<User>(message);
+                    response = JsonConvert.DeserializeObject<UserQM>(message);
 
                     //TODO save changes in database
                     //_context.User.Add(response);
@@ -67,7 +67,7 @@ namespace CommentService.RabbitMQ
                 Console.WriteLine(" [x] Done " + response.FirstName);
                 channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
             };
-            channel.BasicConsume(queue: "update_user_queue", autoAck: false, consumer: consumer);
+            channel.BasicConsume(queue: "auth_queue", autoAck: false, consumer: consumer);
 
             Console.WriteLine(" Press [enter] to exit.");
 
