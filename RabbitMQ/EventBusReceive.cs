@@ -16,13 +16,13 @@ namespace CommentService.RabbitMQ
         private IModel channel;
 
         //TODO check if right db class
-        private DbContextRepository _repository;
+        private IRepository _repository;
 
         public EventBusReceive(IServiceScopeFactory factory)
         {
 
             var scope = factory.CreateScope();
-            _repository = scope.ServiceProvider.GetRequiredService<DbContextRepository>();
+            _repository = scope.ServiceProvider.GetRequiredService<IRepository>();
 
             ReceiveUser();
         }

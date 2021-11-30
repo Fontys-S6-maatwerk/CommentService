@@ -10,5 +10,6 @@ namespace CommentService.Repositories
     {
         public CommentPage Get(Guid solutionId, int pageNumber, int pageSize);
         public CommentDataModel Create(CommentDataModel comment);
+        void AddUser(UserDBO userDBO);
     }
 }
