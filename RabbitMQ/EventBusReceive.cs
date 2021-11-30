@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Microsoft.Extensions.DependencyInjection;
 using CommentService.Models;
 using CommentService.Repositories;
+using CommentService.Mappers;
 
 namespace CommentService.RabbitMQ
 {
@@ -15,13 +16,13 @@ namespace CommentService.RabbitMQ
         private IModel channel;
 
         //TODO check if right db class
-        private CommentContext _context;
+        private DbContextRepository _repository;
 
         public EventBusReceive(IServiceScopeFactory factory)
         {
 
             var scope = factory.CreateScope();
-            _context = scope.ServiceProvider.GetRequiredService<CommentContext>();
+            _repository = scope.ServiceProvider.GetRequiredService<DbContextRepository>();
 
             ReceiveUser();
         }
@@ -32,7 +33,7 @@ namespace CommentService.RabbitMQ
             connection = factory.CreateConnection();
             channel = connection.CreateModel();
 
-            channel.QueueDeclare(queue: "auth_queue", durable: true, exclusive: false, autoDelete: false, arguments: null);
+            channel.QueueDeclare(queue: "update_user_queue", durable: true, exclusive: false, autoDelete: false, arguments: null);
             channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
 
             Console.WriteLine(" [*] Waiting for messages.");
@@ -55,8 +56,7 @@ namespace CommentService.RabbitMQ
                     response = JsonConvert.DeserializeObject<UserQM>(message);
 
                     //TODO save changes in database
-                    //_context.User.Add(response);
-                    _context.SaveChanges();
+                    _repository.AddUser(CommentMapper.MapToUserDBO(response));
                 }
                 catch (Exception e)
                 {
@@ -67,7 +67,7 @@ namespace CommentService.RabbitMQ
                 Console.WriteLine(" [x] Done " + response.FirstName);
                 channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
             };
-            channel.BasicConsume(queue: "auth_queue", autoAck: false, consumer: consumer);
+            channel.BasicConsume(queue: "update_user_queue", autoAck: false, consumer: consumer);
 
             Console.WriteLine(" Press [enter] to exit.");
 

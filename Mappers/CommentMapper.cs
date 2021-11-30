@@ -33,7 +33,6 @@ namespace CommentService.Mappers
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Email = user.Email
             };
         }
 
@@ -49,7 +48,6 @@ namespace CommentService.Mappers
                 Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Email = user.Email
             };
         }
 

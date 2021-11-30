@@ -39,6 +39,12 @@ namespace CommentService.Repositories
             commentContext.SaveChanges();
         }
 
+        public void AddUser(UserDBO user)
+        {
+            commentContext.Users.Add(user);
+            commentContext.SaveChanges();
+        }
+
         public CommentPage Get(Guid id, int pageNumber, int pageSize)
         {
             int totalElements = commentContext.Comments
