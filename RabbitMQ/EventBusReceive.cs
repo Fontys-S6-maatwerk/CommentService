@@ -14,12 +14,11 @@ namespace CommentService.RabbitMQ
         private IConnection connection;
         private IModel channel;
 
-        //TODO check if right class
+        //TODO check if right db class
         private CommentContext _context;
 
         public EventBusReceive(IServiceScopeFactory factory)
         {
-            //_context = context;
 
             var scope = factory.CreateScope();
             _context = scope.ServiceProvider.GetRequiredService<CommentContext>();
@@ -68,10 +67,9 @@ namespace CommentService.RabbitMQ
                 Console.WriteLine(" [x] Done " + response.FirstName);
                 channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
             };
-            channel.BasicConsume(queue: "auth_queue", autoAck: false, consumer: consumer);
+            channel.BasicConsume(queue: "update_user_queue", autoAck: false, consumer: consumer);
 
             Console.WriteLine(" Press [enter] to exit.");
-            //Console.ReadLine();
 
         }
     }
