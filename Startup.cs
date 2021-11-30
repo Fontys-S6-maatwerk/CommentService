@@ -35,7 +35,7 @@ namespace CommentService
             });
 
             services.AddLogging();
-            services.AddScoped<DbContextRepository>();
+            services.AddScoped<IRepository, DbContextRepository>();
 
             services.AddCors(options =>
             {

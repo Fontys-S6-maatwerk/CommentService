@@ -3,14 +3,16 @@ using System;
 using CommentService.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CommentService.Migrations
 {
     [DbContext(typeof(CommentContext))]
-    partial class CommentContextModelSnapshot : ModelSnapshot
+    [Migration("20211130085601_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,6 +57,9 @@ namespace CommentService.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("LastName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ProfileImage")
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");

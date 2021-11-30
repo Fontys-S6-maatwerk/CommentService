@@ -16,5 +16,6 @@ namespace CommentService.Models
         public Guid UserId { get; set; }
         public string Text { get; set; }
         public long CreationTime { get; set; }
+        public UserDBO User { get; set; }
     }
 }

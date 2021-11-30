@@ -1,5 +1,6 @@
 ﻿using CommentService.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace CommentService.Repositories
         }
 
         public DbSet<CommentDataModel> Comments { get; set; }
+        public DbSet<UserDBO> Users { get; set; }
     }
 }
