@@ -1,3 +1,4 @@
+using CommentService.RabbitMQ;
 using CommentService.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,6 +38,8 @@ namespace CommentService
             services.AddLogging();
             services.AddScoped<IRepository, DbContextRepository>();
 
+            services.AddSingleton<EventBusReceive>();
+
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder =>
@@ -53,7 +56,7 @@ namespace CommentService
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, EventBusReceive cake)
         {
             if (env.IsDevelopment())
             {
