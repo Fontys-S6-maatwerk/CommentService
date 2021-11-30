@@ -51,7 +51,7 @@ namespace CommentService
             });
 
             services.AddDbContext<CommentContext>(options =>
-                options.UseMySql(Configuration.GetConnectionString("authentication-db"), new MySqlServerVersion(new Version(8, 0, 23))));
+                options.UseMySql(Configuration.GetConnectionString("MySql"), new MySqlServerVersion(new Version(8, 0, 23))));
 
         }
 
