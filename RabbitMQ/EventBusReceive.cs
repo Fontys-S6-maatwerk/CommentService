@@ -33,7 +33,7 @@ namespace CommentService.RabbitMQ
             connection = factory.CreateConnection();
             channel = connection.CreateModel();
 
-            channel.QueueDeclare(queue: "auth_queue", durable: true, exclusive: false, autoDelete: false, arguments: null);
+            channel.QueueDeclare(queue: "update_user_queue", durable: true, exclusive: false, autoDelete: false, arguments: null);
             channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
 
             Console.WriteLine(" [*] Waiting for messages.");
