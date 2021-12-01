@@ -16,7 +16,7 @@ namespace CommentService.Mappers
                 UserId = commentQueryModel.UserId,
                 SolutionId = commentQueryModel.SolutionId,
                 Text = commentQueryModel.Content,
-                CreationTime = commentQueryModel.CreationTime,
+                CreationTime = new DateTime(commentQueryModel.CreationTime),
                 User = MapToUserDBO(commentQueryModel.User)
             };
         }
@@ -59,7 +59,7 @@ namespace CommentService.Mappers
                 UserId = commentDataModel.UserId,
                 SolutionId = commentDataModel.SolutionId,
                 Content = commentDataModel.Text,
-                CreationTime = commentDataModel.CreationTime,
+                CreationTime = commentDataModel.CreationTime.Ticks,
                 User = MapToUserQM(commentDataModel.User)
             };
         }
