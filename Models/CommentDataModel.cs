@@ -15,6 +15,8 @@ namespace CommentService.Models
         public Guid SolutionId { get; set; }
         public Guid UserId { get; set; }
         public string Text { get; set; }
-        public long CreationTime { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public DateTime CreationTime { get; set; }
+        public UserDBO User { get; set; }
     }
 }

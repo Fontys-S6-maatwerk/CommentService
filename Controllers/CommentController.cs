@@ -17,9 +17,9 @@ namespace CommentService.Controllers
     public class CommentController : ControllerBase
     {
         private readonly ILogger<CommentController> _logger;
-        private DbContextRepository _repository;
+        private IRepository _repository;
 
-        public CommentController(ILogger<CommentController> logger, DbContextRepository repository)
+        public CommentController(ILogger<CommentController> logger, IRepository repository)
         {
             _repository = repository;
             _logger = logger;
@@ -38,7 +38,7 @@ namespace CommentService.Controllers
             try
             {
                 return Ok(CommentMapper.MapToQueryPage(
-                    _repository.GetComments(id, pageNumber, pageSize)));
+                    _repository.Get(id, pageNumber, pageSize)));
             } catch (Exception e)
             {
                 _logger.LogError("error occured when  retrieving a list of comments", e);
@@ -59,7 +59,7 @@ namespace CommentService.Controllers
             {
                 return Ok(
                     CommentMapper.MapToQueryModel(
-                        _repository.CreateComment(
+                        _repository.Create(
                             CommentMapper.MapToDataModel(comment))));
             } catch (Exception e)
             {

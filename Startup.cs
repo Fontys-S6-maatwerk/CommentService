@@ -1,3 +1,4 @@
+using CommentService.RabbitMQ;
 using CommentService.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,7 +36,9 @@ namespace CommentService
             });
 
             services.AddLogging();
-            services.AddScoped<DbContextRepository>();
+            services.AddScoped<IRepository, DbContextRepository>();
+
+            services.AddSingleton<EventBusReceive>();
 
             services.AddCors(options =>
             {
@@ -53,8 +56,14 @@ namespace CommentService
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, CommentContext dataContext)
         {
+            foreach (var migration in dataContext.Database.GetPendingMigrations())
+            {
+                Console.WriteLine("Running Migrations: " + migration);
+            }
+            dataContext.Database.Migrate();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -16,7 +16,38 @@ namespace CommentService.Mappers
                 UserId = commentQueryModel.UserId,
                 SolutionId = commentQueryModel.SolutionId,
                 Text = commentQueryModel.Content,
-                CreationTime = commentQueryModel.CreationTime
+                CreationTime = new DateTime(commentQueryModel.CreationTime),
+                User = MapToUserDBO(commentQueryModel.User)
+            };
+        }
+
+        public static UserDBO MapToUserDBO(UserQM user)
+        {
+            if (user.Equals(null))
+            {
+                return null;
+            }
+
+            return new UserDBO()
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+            };
+        }
+
+        public static UserQM MapToUserQM(UserDBO user)
+        {
+            if (user == null)
+            {
+                return null;
+            }
+
+            return new UserQM()
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
             };
         }
 
@@ -28,16 +59,8 @@ namespace CommentService.Mappers
                 UserId = commentDataModel.UserId,
                 SolutionId = commentDataModel.SolutionId,
                 Content = commentDataModel.Text,
-                CreationTime = commentDataModel.CreationTime,
-                //temp
-                User = new User()
-                {
-                    Id = commentDataModel.UserId,
-                    FirstName = "Bob",
-                    LastName = "Builderson",
-                    Email = "Bob.builderson@test.com",
-                    ProfileImage = "https://cdn.vuetifyjs.com/images/john.jpg"
-                }
+                CreationTime = commentDataModel.CreationTime.Ticks,
+                User = MapToUserQM(commentDataModel.User)
             };
         }
 
