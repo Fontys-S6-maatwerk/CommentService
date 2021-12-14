@@ -12,10 +12,6 @@ namespace CommentService.RabbitMQ
 {
     public class EventBusReceive
     {
-        private IConnection connection;
-        private IModel channel;
-
-        //TODO check if right db class
         private IRepository _repository;
 
         public EventBusReceive(IServiceScopeFactory factory)
@@ -62,9 +58,6 @@ namespace CommentService.RabbitMQ
                 }
             };
             channel.BasicConsume(queue: queueName, autoAck: true, consumer: consumer);
-
-            Console.WriteLine(" Press [enter] to exit.");
-            //Console.ReadLine();
         }
     }
 }

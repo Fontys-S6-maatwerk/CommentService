@@ -10,10 +10,7 @@ namespace CommentService.Repositories
 {
     public class CommentContext : DbContext
     {
-        public CommentContext(DbContextOptions<CommentContext> options) :base(options)
-        {
-
-        }
+        public CommentContext(DbContextOptions<CommentContext> options) :base(options) { }
 
         public DbSet<CommentDataModel> Comments { get; set; }
         public DbSet<UserDBO> Users { get; set; }
