@@ -26,6 +26,13 @@ namespace CommentService.Controllers
         }
 
         [HttpGet]
+        [Route("/comments/ping")]
+        public IActionResult Ping()
+        {
+            return Ok("Hello World!");
+        }
+
+        [HttpGet]
         [Route("/comments/solutions/{id}")]
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(typeof(CommentQueryModel[]), StatusCodes.Status200OK)]
