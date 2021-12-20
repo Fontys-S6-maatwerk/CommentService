@@ -1,0 +1,11 @@
+﻿using System;
+
+namespace CommentService.Models
+{
+    public class UserQM
+    {
+        public Guid Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+    }
+}

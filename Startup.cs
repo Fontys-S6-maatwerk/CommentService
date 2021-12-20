@@ -1,5 +1,10 @@
+using CommentService.RabbitMQ;
+using CommentService.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -29,11 +34,36 @@ namespace CommentService
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CommentService", Version = "v1" });
             });
+
+            services.AddLogging();
+            services.AddScoped<IRepository, DbContextRepository>();
+
+            services.AddSingleton<EventBusReceive>();
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("http://localhost:8081")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
+            });
+
+            services.AddDbContext<CommentContext>(options =>
+                options.UseMySql(Configuration.GetConnectionString("MySql"), new MySqlServerVersion(new Version(8, 0, 23))));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, CommentContext dataContext)
         {
+            foreach (var migration in dataContext.Database.GetPendingMigrations())
+            {
+                Console.WriteLine("Running Migrations: " + migration);
+            }
+            dataContext.Database.Migrate();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -41,9 +71,13 @@ namespace CommentService
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CommentService v1"));
             }
 
+            app.UseHttpsRedirection();
+
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {
