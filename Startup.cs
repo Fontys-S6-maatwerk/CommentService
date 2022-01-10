@@ -44,7 +44,7 @@ namespace CommentService
             {
                 options.AddDefaultPolicy(builder =>
                 {
-                    builder.WithOrigins("http://localhost:8081")
+                    builder.WithOrigins("http://localhost:8081", "http://localhost:9090")
                     .AllowAnyHeader()
                     .AllowAnyMethod();
                 });
